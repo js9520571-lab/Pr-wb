@@ -3,44 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Holographic Code Workspace</title>
+    <title>Responsive Holographic Workspace</title>
     <style>
-        /* Base Setup & Futuristic Background */
+        /* Base Setup & Realistic Dark Workspace Background */
         body {
             margin: 0;
             padding: 0;
-            background-color: #050811;
-            background-image: 
-                radial-gradient(at 10% 20%, rgba(0, 180, 216, 0.15) 0, transparent 45%),
-                radial-gradient(at 90% 80%, rgba(123, 44, 191, 0.15) 0, transparent 50%),
-                radial-gradient(at 50% 50%, rgba(10, 14, 23, 1) 0, transparent 100%);
-            height: 100vh;
-            overflow: hidden;
+            /* Using a high-quality dark tech workspace photo as the backdrop */
+            background: linear-gradient(rgba(10, 14, 23, 0.85), rgba(10, 14, 23, 0.92)), 
+                        url('https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            overflow-x: hidden;
+            overflow-y: auto;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1400px; /* Enhanced 3D depth context */
+            perspective: 1400px; 
         }
 
         /* Ambient Digital Grid Overlay */
-        .room-bg {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+        .grid-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
-            opacity: 0.04;
+            opacity: 0.03;
             background-image: 
                 linear-gradient(rgba(0, 255, 242, 0.3) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(0, 255, 242, 0.3) 1px, transparent 1px);
-            background-size: 30px 30px;
+            background-size: 40px 40px;
+            pointer-events: none;
         }
 
-        /* Holographic Interface Container */
+        /* Container designed to handle responsive scaling */
         .hologram-container {
             position: relative;
-            width: 95vw;
+            width: 100%;
+            max-width: 1400px;
             height: 90vh;
+            min-height: 700px;
             z-index: 2;
             transform-style: preserve-3d;
         }
@@ -48,23 +50,24 @@
         /* Shared Panel Styling */
         .panel {
             position: absolute;
-            background: rgba(0, 180, 216, 0.02);
-            border: 1px solid rgba(0, 180, 216, 0.15);
-            border-radius: 6px;
+            background: rgba(0, 180, 216, 0.03);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            border-radius: 8px;
             padding: 18px;
             color: #d0f4f7;
-            box-shadow: 0 0 25px rgba(0, 180, 216, 0.05), inset 0 0 15px rgba(0, 180, 216, 0.02);
-            backdrop-filter: blur(4px);
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 0 25px rgba(0, 180, 216, 0.08), inset 0 0 15px rgba(0, 180, 216, 0.02);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: all 0.4s ease;
         }
 
         .panel:hover {
-            border-color: rgba(0, 255, 242, 0.45);
-            box-shadow: 0 0 35px rgba(0, 255, 242, 0.2), inset 0 0 20px rgba(0, 255, 242, 0.05);
-            background: rgba(0, 180, 216, 0.04);
+            border-color: rgba(0, 255, 242, 0.5);
+            box-shadow: 0 0 35px rgba(0, 255, 242, 0.25), inset 0 0 20px rgba(0, 255, 242, 0.05);
+            background: rgba(0, 180, 216, 0.06);
         }
 
-        /* Syntax & Tech Highlighting Colors */
+        /* Code Syntax Highlighting Colors */
         .keyword { color: #ff79c6; font-weight: bold; }
         .import { color: #00b4d8; }
         .string { color: #50fa7b; }
@@ -72,6 +75,7 @@
         .json-key { color: #8be9fd; }
         .system-stat { color: #ffb86c; }
         .success { color: #50fa7b; font-weight: bold; }
+        
         .accent-header {
             font-size: 10px;
             text-transform: uppercase;
@@ -82,83 +86,89 @@
             padding-bottom: 4px;
         }
 
-        /* 1. NEW: Top Left System Telemetry */
+        /* --- DESKTOP 3D POSITIONING --- */
         .panel-telemetry {
-            width: 280px;
-            left: 2%;
-            top: 5%;
-            transform: rotateY(30deg) rotateX(15deg) translateZ(80px);
+            width: 260px; left: 2%; top: 5%;
+            transform: rotateY(25deg) rotateX(12deg) translateZ(60px);
             font-size: 11px;
         }
 
-        /* 2. Left Panel - React Imports (Original Restyled) */
         .panel-left {
-            width: 440px;
-            left: 4%;
-            top: 30%;
-            transform: rotateY(22deg) rotateX(8deg) translateZ(40px);
+            width: 430px; left: 3%; top: 28%;
+            transform: rotateY(20deg) rotateX(8deg) translateZ(30px);
             font-size: 13px;
-            line-height: 1.6;
+            line-height: 1.5;
         }
 
-        /* 3. NEW: Bottom Left Terminal Logs */
         .panel-terminal {
-            width: 400px;
-            left: 8%;
-            bottom: 5%;
-            transform: rotateY(18deg) rotateX(-5deg) translateZ(60px);
+            width: 410px; left: 6%; bottom: 4%;
+            transform: rotateY(15deg) rotateX(-2deg) translateZ(50px);
             font-size: 11px;
-            background: rgba(5, 15, 25, 0.3);
             border-left: 3px solid rgba(80, 250, 123, 0.4);
         }
 
-        /* 4. Center Panel - Main IDE Code (Original Restyled) */
         .panel-center {
-            width: 430px;
-            left: 38%;
-            top: 18%;
-            transform: rotateY(-10deg) rotateX(12deg) translateZ(160px);
+            width: 440px; left: 38%; top: 15%;
+            transform: rotateY(-8deg) rotateX(10deg) translateZ(140px);
             font-size: 12.5px;
             line-height: 1.5;
-            background: rgba(8, 24, 40, 0.2);
+            background: rgba(8, 24, 40, 0.3);
             border-color: rgba(0, 180, 216, 0.35);
         }
 
-        /* 5. Right Panel - ESLint Config (Original Restyled) */
         .panel-right {
-            width: 240px;
-            right: 8%;
-            top: 8%;
-            transform: rotateY(-28deg) rotateX(6deg) translateZ(-20px);
+            width: 240px; right: 6%; top: 8%;
+            transform: rotateY(-25deg) rotateX(6deg) translateZ(-10px);
             font-size: 14px;
             line-height: 1.7;
         }
 
-        /* 6. NEW: Bottom Right DB Mapping Matrix */
         .panel-database {
-            width: 280px;
-            right: 5%;
-            bottom: 12%;
-            transform: rotateY(-32deg) rotateX(-10deg) translateZ(30px);
+            width: 280px; right: 4%; bottom: 10%;
+            transform: rotateY(-28deg) rotateX(-6deg) translateZ(20px);
             font-size: 12px;
-            line-height: 1.6;
             border-right: 3px solid rgba(139, 233, 253, 0.4);
         }
 
-        /* Glare overlays */
         .panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 70%);
-            pointer-events: none;
-            border-radius: 6px;
+            pointer-events: none; border-radius: 8px;
+        }
+
+        /* --- NON-DESKTOP VIEW FIX (Tablets & Phones) --- */
+        @media (max-width: 1024px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+                padding: 20px 10px;
+            }
+            .hologram-container {
+                height: auto;
+                min-height: auto;
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                align-items: center;
+                perspective: none; /* Disables 3D distortion on mobile so text is completely legible */
+            }
+            .panel {
+                position: relative !important;
+                left: auto !important;
+                right: auto !important;
+                top: auto !important;
+                bottom: auto !important;
+                transform: none !important; /* Flattens panels into a clean scrolling list */
+                width: 90% !important;
+                max-width: 500px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="room-bg"></div>
+    <div class="grid-bg"></div>
 
     <div class="hologram-container">
         
@@ -184,8 +194,8 @@
 
         <div class="panel panel-terminal">
             <div class="accent-header">SHELL STACK // DEPLOY_STREAM</div>
-            $ git commit -m "feat: updated holographic interface parameters"<br>
-            <span class="success">✓</span> Optmized 3D matrix layers (6 dynamic panels)<br>
+            $ git commit -m "feat: fixed responsive layout parameters"<br>
+            <span class="success">✓</span> Disabled 3D overlays on mobile breakpoints<br>
             $ npm run build --production<br>
             <span class="json-key">Creating an optimized production build...</span><br>
             <span class="success">Compiled successfully. File size: 42.1 KB</span>
