@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holographic Code Workspace</title>
+    <style>
+        /* Base Setup & Futuristic Background */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0a0e17;
+            background-image: 
+                radial-gradient(at 20% 20%, rgba(16, 42, 67, 0.6) 0, transparent 50%),
+                radial-gradient(at 80% 80%, rgba(13, 27, 42, 0.8) 0, transparent 50%);
+            height: 100vh;
+            overflow: hidden;
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Creates the 3D depth context for the floating panels */
+            perspective: 1200px; 
+        }
+
+        /* Ambient Room Overlay (simulating the background blur in the image) */
+        .room-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.15;
+            background: linear-gradient(45deg, #000 25%, transparent 25%) -50px 0,
+                        linear-gradient(-45deg, #000 25%, transparent 25%) -50px 0,
+                        linear-gradient(45deg, transparent 75%, #000 75%),
+                        linear-gradient(-45deg, transparent 75%, #000 75%);
+            background-size: 100px 100px;
+            filter: blur(4px);
+        }
+
+        /* Holographic Interface Container */
+        .hologram-container {
+            position: relative;
+            width: 90vw;
+            height: 80vh;
+            z-index: 2;
+            transform-style: preserve-3d;
+        }
+
+        /* Shared Panel Styling */
+        .panel {
+            position: absolute;
+            background: rgba(0, 180, 216, 0.03);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            color: #e0f1f4;
+            box-shadow: 0 0 20px rgba(0, 180, 216, 0.1), inset 0 0 15px rgba(0, 180, 216, 0.05);
+            backdrop-filter: blur(3px);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .panel:hover {
+            border-color: rgba(0, 255, 242, 0.5);
+            box-shadow: 0 0 30px rgba(0, 255, 242, 0.25), inset 0 0 20px rgba(0, 255, 242, 0.1);
+        }
+
+        /* Syntax Highlighting Colors */
+        .keyword { color: #ff79c6; font-weight: bold; }
+        .import { color: #00b4d8; }
+        .string { color: #50fa7b; }
+        .component { color: #f1fa8c; }
+        .json-key { color: #8be9fd; }
+
+        /* Left Panel - React Imports (Angled backward left) */
+        .panel-left {
+            width: 450px;
+            left: 5%;
+            top: 15%;
+            transform: rotateY(25deg) rotateX(10deg) translateZ(50px);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        /* Center Panel - Main IDE Code (Angled sharply forward) */
+        .panel-center {
+            width: 420px;
+            left: 38%;
+            top: 25%;
+            transform: rotateY(-15deg) rotateX(15deg) translateZ(150px);
+            font-size: 12px;
+            line-height: 1.4;
+            background: rgba(10, 30, 50, 0.15);
+            border-color: rgba(0, 180, 216, 0.3);
+        }
+
+        /* Right Panel - ESLint Config (Floating in space on the right) */
+        .panel-right {
+            width: 250px;
+            right: 8%;
+            top: 10%;
+            transform: rotateY(-30deg) rotateX(5deg) translateZ(-50px);
+            font-size: 15px;
+            line-height: 1.8;
+            border-left: 3px solid rgba(0, 180, 216, 0.4);
+        }
+
+        /* Decorative Glare Effect */
+        .panel::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+            pointer-events: none;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="room-bg"></div>
+
+    <div class="hologram-container">
+        
+        <div class="panel panel-left">
+            <span class="import">import</span> <span class="string">"./index.css"</span>;<br>
+            <span class="import">import</span> { <span class="component">ReactComponent</span> <span class="keyword">as</span> ArrowIcon } <span class="import">from</span> <span class="string">"./assets/icons/arrow.svg"</span>;<br>
+            <span class="import">import</span> { <span class="component">ReactComponent</span> <span class="keyword">as</span> BoltIcon } <span class="import">from</span> <span class="string">"./assets/icons/bolt.svg"</span>;<br>
+            <span class="import">import</span> { <span class="component">ReactComponent</span> <span class="keyword">as</span> RightArrowIcon } <span class="import">from</span> <span class="string">"./assets/icons/right-arrow.svg"</span>;<br>
+            <br>
+            <span class="import">import</span> React, { useState, useEffect, useRef } <span class="import">from</span> <span class="string">"react"</span>;<br>
+            <span class="import">import</span> { <span class="component">CSSTransition</span> } <span class="import">from</span> <span class="string">"react-transition-group"</span>;
+        </div>
+
+        <div class="panel panel-center">
+            <div style="color: #6272a4; margin-bottom: 8px;">// Active Workspace Matrix</div>
+            <span class="keyword">function</span> <span class="component">App</span>() {<br>
+            &nbsp;&nbsp;<span class="keyword">const</span> [active, setActive] = useState(<span class="keyword">true</span>);<br>
+            &nbsp;&nbsp;useEffect(() => {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(<span class="string">"Holographic system ready."</span>);<br>
+            &nbsp;&nbsp;}, []);<br>
+            <br>
+            &nbsp;&nbsp;<span class="keyword">return</span> (<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="component">div</span> className="container"&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="component">CSSTransition</span> in={active}&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;<span class="component">BoltIcon</span> /&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="component">CSSTransition</span>&gt;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&lt;/<span class="component">div</span>&gt;<br>
+            &nbsp;&nbsp;);<br>
+            }
+        </div>
+
+        <div class="panel panel-right">
+            {<br>
+            &nbsp;&nbsp;<span class="json-key">"eslintConfig"</span>: {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"extends"</span>: [<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"react-app"</span>,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="string">"react-app/jest"</span><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;]<br>
+            &nbsp;&nbsp;}<br>
+            }
+        </div>
+
+    </div>
+
+</body>
+  </html>
