@@ -3,46 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Holographic Code Workspace</title>
+    <title>Advanced Holographic Code Workspace</title>
     <style>
         /* Base Setup & Futuristic Background */
         body {
             margin: 0;
             padding: 0;
-            background-color: #0a0e17;
+            background-color: #050811;
             background-image: 
-                radial-gradient(at 20% 20%, rgba(16, 42, 67, 0.6) 0, transparent 50%),
-                radial-gradient(at 80% 80%, rgba(13, 27, 42, 0.8) 0, transparent 50%);
+                radial-gradient(at 10% 20%, rgba(0, 180, 216, 0.15) 0, transparent 45%),
+                radial-gradient(at 90% 80%, rgba(123, 44, 191, 0.15) 0, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(10, 14, 23, 1) 0, transparent 100%);
             height: 100vh;
             overflow: hidden;
             font-family: 'Courier New', Courier, monospace;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Creates the 3D depth context for the floating panels */
-            perspective: 1200px; 
+            perspective: 1400px; /* Enhanced 3D depth context */
         }
 
-        /* Ambient Room Overlay (simulating the background blur in the image) */
+        /* Ambient Digital Grid Overlay */
         .room-bg {
             position: absolute;
             width: 100%;
             height: 100%;
             z-index: 1;
-            opacity: 0.15;
-            background: linear-gradient(45deg, #000 25%, transparent 25%) -50px 0,
-                        linear-gradient(-45deg, #000 25%, transparent 25%) -50px 0,
-                        linear-gradient(45deg, transparent 75%, #000 75%),
-                        linear-gradient(-45deg, transparent 75%, #000 75%);
-            background-size: 100px 100px;
-            filter: blur(4px);
+            opacity: 0.04;
+            background-image: 
+                linear-gradient(rgba(0, 255, 242, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 242, 0.3) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
 
         /* Holographic Interface Container */
         .hologram-container {
             position: relative;
-            width: 90vw;
-            height: 80vh;
+            width: 95vw;
+            height: 90vh;
             z-index: 2;
             transform-style: preserve-3d;
         }
@@ -50,69 +48,111 @@
         /* Shared Panel Styling */
         .panel {
             position: absolute;
-            background: rgba(0, 180, 216, 0.03);
-            border: 1px solid rgba(0, 180, 216, 0.2);
-            border-radius: 8px;
-            padding: 20px;
-            color: #e0f1f4;
-            box-shadow: 0 0 20px rgba(0, 180, 216, 0.1), inset 0 0 15px rgba(0, 180, 216, 0.05);
-            backdrop-filter: blur(3px);
-            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            background: rgba(0, 180, 216, 0.02);
+            border: 1px solid rgba(0, 180, 216, 0.15);
+            border-radius: 6px;
+            padding: 18px;
+            color: #d0f4f7;
+            box-shadow: 0 0 25px rgba(0, 180, 216, 0.05), inset 0 0 15px rgba(0, 180, 216, 0.02);
+            backdrop-filter: blur(4px);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         .panel:hover {
-            border-color: rgba(0, 255, 242, 0.5);
-            box-shadow: 0 0 30px rgba(0, 255, 242, 0.25), inset 0 0 20px rgba(0, 255, 242, 0.1);
+            border-color: rgba(0, 255, 242, 0.45);
+            box-shadow: 0 0 35px rgba(0, 255, 242, 0.2), inset 0 0 20px rgba(0, 255, 242, 0.05);
+            background: rgba(0, 180, 216, 0.04);
         }
 
-        /* Syntax Highlighting Colors */
+        /* Syntax & Tech Highlighting Colors */
         .keyword { color: #ff79c6; font-weight: bold; }
         .import { color: #00b4d8; }
         .string { color: #50fa7b; }
         .component { color: #f1fa8c; }
         .json-key { color: #8be9fd; }
+        .system-stat { color: #ffb86c; }
+        .success { color: #50fa7b; font-weight: bold; }
+        .accent-header {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: rgba(0, 180, 216, 0.6);
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 180, 216, 0.15);
+            padding-bottom: 4px;
+        }
 
-        /* Left Panel - React Imports (Angled backward left) */
+        /* 1. NEW: Top Left System Telemetry */
+        .panel-telemetry {
+            width: 280px;
+            left: 2%;
+            top: 5%;
+            transform: rotateY(30deg) rotateX(15deg) translateZ(80px);
+            font-size: 11px;
+        }
+
+        /* 2. Left Panel - React Imports (Original Restyled) */
         .panel-left {
-            width: 450px;
-            left: 5%;
-            top: 15%;
-            transform: rotateY(25deg) rotateX(10deg) translateZ(50px);
-            font-size: 14px;
+            width: 440px;
+            left: 4%;
+            top: 30%;
+            transform: rotateY(22deg) rotateX(8deg) translateZ(40px);
+            font-size: 13px;
             line-height: 1.6;
         }
 
-        /* Center Panel - Main IDE Code (Angled sharply forward) */
+        /* 3. NEW: Bottom Left Terminal Logs */
+        .panel-terminal {
+            width: 400px;
+            left: 8%;
+            bottom: 5%;
+            transform: rotateY(18deg) rotateX(-5deg) translateZ(60px);
+            font-size: 11px;
+            background: rgba(5, 15, 25, 0.3);
+            border-left: 3px solid rgba(80, 250, 123, 0.4);
+        }
+
+        /* 4. Center Panel - Main IDE Code (Original Restyled) */
         .panel-center {
-            width: 420px;
+            width: 430px;
             left: 38%;
-            top: 25%;
-            transform: rotateY(-15deg) rotateX(15deg) translateZ(150px);
-            font-size: 12px;
-            line-height: 1.4;
-            background: rgba(10, 30, 50, 0.15);
-            border-color: rgba(0, 180, 216, 0.3);
+            top: 18%;
+            transform: rotateY(-10deg) rotateX(12deg) translateZ(160px);
+            font-size: 12.5px;
+            line-height: 1.5;
+            background: rgba(8, 24, 40, 0.2);
+            border-color: rgba(0, 180, 216, 0.35);
         }
 
-        /* Right Panel - ESLint Config (Floating in space on the right) */
+        /* 5. Right Panel - ESLint Config (Original Restyled) */
         .panel-right {
-            width: 250px;
+            width: 240px;
             right: 8%;
-            top: 10%;
-            transform: rotateY(-30deg) rotateX(5deg) translateZ(-50px);
-            font-size: 15px;
-            line-height: 1.8;
-            border-left: 3px solid rgba(0, 180, 216, 0.4);
+            top: 8%;
+            transform: rotateY(-28deg) rotateX(6deg) translateZ(-20px);
+            font-size: 14px;
+            line-height: 1.7;
         }
 
-        /* Decorative Glare Effect */
+        /* 6. NEW: Bottom Right DB Mapping Matrix */
+        .panel-database {
+            width: 280px;
+            right: 5%;
+            bottom: 12%;
+            transform: rotateY(-32deg) rotateX(-10deg) translateZ(30px);
+            font-size: 12px;
+            line-height: 1.6;
+            border-right: 3px solid rgba(139, 233, 253, 0.4);
+        }
+
+        /* Glare overlays */
         .panel::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 60%);
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 70%);
             pointer-events: none;
-            border-radius: 8px;
+            border-radius: 6px;
         }
     </style>
 </head>
@@ -122,7 +162,17 @@
 
     <div class="hologram-container">
         
+        <div class="panel panel-telemetry">
+            <div class="accent-header">CORE TELEMETRY // CORE_SYS_01</div>
+            SYS_LOAD: <span class="system-stat">34.22%</span> <br>
+            NET_SWARM: <span class="success">ONLINE</span> <br>
+            FPS_REMAP: <span class="system-stat">120.0 Hz</span> <br>
+            LATENCY: <span class="string">8ms</span> <br>
+            MEM_ALLOC: [||||||||..........] 42%
+        </div>
+        
         <div class="panel panel-left">
+            <div class="accent-header">FILE SUBSTRUCTURE // IMPORTS</div>
             <span class="import">import</span> <span class="string">"./index.css"</span>;<br>
             <span class="import">import</span> { <span class="component">ReactComponent</span> <span class="keyword">as</span> ArrowIcon } <span class="import">from</span> <span class="string">"./assets/icons/arrow.svg"</span>;<br>
             <span class="import">import</span> { <span class="component">ReactComponent</span> <span class="keyword">as</span> BoltIcon } <span class="import">from</span> <span class="string">"./assets/icons/bolt.svg"</span>;<br>
@@ -132,8 +182,17 @@
             <span class="import">import</span> { <span class="component">CSSTransition</span> } <span class="import">from</span> <span class="string">"react-transition-group"</span>;
         </div>
 
+        <div class="panel panel-terminal">
+            <div class="accent-header">SHELL STACK // DEPLOY_STREAM</div>
+            $ git commit -m "feat: updated holographic interface parameters"<br>
+            <span class="success">✓</span> Optmized 3D matrix layers (6 dynamic panels)<br>
+            $ npm run build --production<br>
+            <span class="json-key">Creating an optimized production build...</span><br>
+            <span class="success">Compiled successfully. File size: 42.1 KB</span>
+        </div>
+
         <div class="panel panel-center">
-            <div style="color: #6272a4; margin-bottom: 8px;">// Active Workspace Matrix</div>
+            <div class="accent-header">ACTIVE RUNTIME // MAIN.JS</div>
             <span class="keyword">function</span> <span class="component">App</span>() {<br>
             &nbsp;&nbsp;<span class="keyword">const</span> [active, setActive] = useState(<span class="keyword">true</span>);<br>
             &nbsp;&nbsp;useEffect(() => {<br>
@@ -151,6 +210,7 @@
         </div>
 
         <div class="panel panel-right">
+            <div class="accent-header">LINTER CONFIG // RULESET</div>
             {<br>
             &nbsp;&nbsp;<span class="json-key">"eslintConfig"</span>: {<br>
             &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"extends"</span>: [<br>
@@ -161,7 +221,17 @@
             }
         </div>
 
+        <div class="panel panel-database">
+            <div class="accent-header">DATA NODE // SCHEMA_MAP</div>
+            <span class="keyword">const</span> <span class="json-key">UserSchema</span> = {<br>
+            &nbsp;&nbsp;id: <span class="component">UUIDv4</span>,<br>
+            &nbsp;&nbsp;session: <span class="component">Token</span>,<br>
+            &nbsp;&nbsp;hologram_auth: <span class="keyword">true</span>,<br>
+            &nbsp;&nbsp;node_cluster: <span class="string">"US-EAST-02"</span><br>
+            };
+        </div>
+
     </div>
 
 </body>
-  </html>
+</html>
